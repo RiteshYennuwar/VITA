@@ -1,2 +1,2 @@
 # VITA
-final year project
+The AI-powered study assistant is an intelligent learning companion designed to elevate student productivity and outcomes. Through personalized study plans, efficient time management, and adaptive learning resources, it tailors the educational experience to individual needs. The project employs AI-based tutoring, content recommendations, and advanced note-taking using natural language processing. With a user-friendly dashboard providing progress tracking and analytics, the study assistant aims to revolutionize how students approach and engage with their academic journey.
