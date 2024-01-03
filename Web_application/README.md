@@ -1,0 +1,1 @@
+Here, all the documents pertaining to the creation and operation of the *Web APP* are to be generated and managed.
