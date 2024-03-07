@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page with Fixed Navbar</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            padding-top: 50px; /* Add padding to the body to account for the fixed navbar */
+            background-color: #efefef;
+        }
+
+        nav {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000; /* Ensure the navbar stays above other content */
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            margin: 0 15px;
+            font-size: 18px;
+        }
+
+        #sign_in {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form {
+            background-color: #B7094C;
+            color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            width: 300px;
+            text-align: left;
+        }
+
+        .form label {
+            font-size: medium;
+        }
+
+        .form input {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #efefef;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        #help {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #help a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #2E6F95;
+            color: #fff;
+            font-size: medium;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.3s ease-in-out;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+</nav>
+
+<div id="sign_in">
+    <div class="form">
+        <form action="/login_page" method="post">
+            <h1>SIGN IN</h1>
+            <label for="username">Username</label>
+            <input type="text" name="username" placeholder="Username" required>
+
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="someone@something.com" required>
+
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Password" required>
+
+            <div id="help">
+                <a href="#">Forgot Password</a>
+                <a href="#">Sign Up</a>
+            </div>
+
+            <button type="submit">Sign In</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

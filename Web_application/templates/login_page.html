@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login Page</title>
+        <link rel="stylesheet" href="../static/style.css">
+        <link rel="shortcut icon" href="../static/VITA logo.png" type="image/x-icon">
+    </head>
+    <body>
+        <nav>
+            <div id="nav">
+            
+                <a href="/">
+                    <img src="../static/VITA full transparent.png" alt="VITA">
+                </a>
+            
+            <a href="#">Home</a>
+            <a href="#">Contact</a>
+            <a href="#">About</a>
+            
+        </div>
+        </nav>
+        <div id="sign_in">
+            <div class="form">
+                <form action="/login_page" method="post">
+                    <h1>SIGN IN</h1>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" placeholder="Username" required>
+
+                    <!-- <label for="emali">Email</label><br>
+                    <input type="email" name="email" placeholder="someone@something.com" required><br> -->
+
+                    <label for="password">Password</label>
+                    <input type="password" name="password" placeholder="Password" required>
+
+                    <div id="help">
+                        <a href="#">Forgot Password?</a>
+                        <a href="#">Sign Up</a>
+                    </div>
+
+                    <div id="button">
+                        <button type="submit">Sign In</button>
+                    </div>
+            </form>
+            </div>
+        </div>
+    </body>
+</html>
