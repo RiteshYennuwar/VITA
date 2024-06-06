@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Upload PDF{% endblock %}
+{% block content %}
+<h2>Upload PDF</h2>
+<form method="post" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+    <label for="file">Choose PDF:</label>
+    <input type="file" id="file" name="file" accept="application/pdf" required><br><br>
+    <button type="submit">Upload</button>
+</form>
+<br>
+<a href="{{ url_for('logout') }}">Logout</a>
+{% endblock %}
