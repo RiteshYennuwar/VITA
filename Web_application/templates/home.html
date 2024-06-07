@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<section class="hero">
+    <h1>Welcome to VITA</h1>
+    <p>Your gateway for Studies.</p>
+    <button class="cta">Explore the Website</button>
+</section>
+<main>
+    <section class="introduction">
+        <h2>About Us</h2>
+        <p>VITA is friendly platfrom for your studies.</p>
+        <!-- <img src="intro.png" alt="Introduction Image"> -->
+    </section>
+    <section class="courses">
+        <h2>Our Features</h2>
+        <div class="course-card">
+            <h3>AI Powered Notes</h3>
+            <p>Keep a track of your studies with AI powered notes.</p>
+            <button class="enroll">Notes</button>
+        </div>
+        <div class="course-card">
+            <h3>Chatbot</h3>
+            <p>Chat with your pdf for more insights.</p>
+            <button class="enroll">Chatbot</button>
+        </div>
+    </section>
+    <section class="testimonials">
+        <h2>Testimonials</h2>
+        <div class="testimonial-card">
+            <p>"Great learning experience!"</p>
+            <h3>John Doe</h3>
+        </div>
+        <div class="testimonial-card">
+            <p>"I highly recommend VITA!"</p>
+            <h3>Jane Smith</h3>
+        </div>
+    </section>
+</main>
+
+{% endblock %}

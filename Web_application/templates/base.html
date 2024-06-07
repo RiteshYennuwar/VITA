@@ -2,8 +2,24 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <header>
+        <div class="logo">VITA</div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="{{ url_for('login') }}">Upload Pdf</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="{{ url_for('login') }}" class="login">Login</a>
+            <a href="{{ url_for('register') }}" class="register">Register</a>
+        </div>
+    </header>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <ul class="flashes">
@@ -14,5 +30,13 @@
         {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
+    <footer>
+        <p>&copy; 2024 EduLearn</p>
+        <div class="social-media">
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+        </div>
+    </footer>
 </body>
 </html>
