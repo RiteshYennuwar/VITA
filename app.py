@@ -5,6 +5,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import gridfs
 import io
 from bson import ObjectId
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -34,6 +35,7 @@ def load_user(user_id):
 @app.route('/')
 def home():
     return render_template('home.html')
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -77,15 +79,24 @@ def upload():
         flash('File uploaded successfully!')
     return render_template('upload.html')
 
+
 @app.route('/download/<filename>')
 @login_required
 def download(filename):
     file = fs.find_one({'filename': filename, 'user_id': current_user.id})
     if file:
-        return send_file(io.BytesIO(file.read()), attachment_filename=filename, as_attachment=True)
+        file_stream = io.BytesIO(file.read())  
+        file_stream.seek(0) 
+        return send_file(file_stream, download_name=filename, as_attachment=True)
     else:
         flash('File not found or access denied.')
         return redirect(url_for('upload'))
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    user_pdfs = fs.find({'user_id': current_user.id})  
+    return render_template('dashboard.html', user_pdfs=user_pdfs)
 
 @app.route('/logout')
 @login_required

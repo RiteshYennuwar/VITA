@@ -191,3 +191,37 @@ footer .social-media a {
     color: #333333;
     text-decoration: none;
 }
+.pdf-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pdf-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #dddddd;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.pdf-item h3 {
+    margin: 0;
+    color: #333333;
+    font-size: 20px;
+}
+
+.pdf-item .download {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pdf-item .download:hover {
+    background-color: #555555;
+}

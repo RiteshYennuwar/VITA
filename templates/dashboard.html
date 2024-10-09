@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<section class="dashboard">
+    <h1>Your Uploaded PDFs</h1>
+    <div class="pdf-list">
+        {% for pdf in user_pdfs %}
+        <div class="pdf-item">
+            <h3>{{ pdf.name }}</h3>
+            <a href="{{ url_for('download', filename=pdf.name) }}" download>
+                <button class="download">Download</button>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

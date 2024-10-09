@@ -6,20 +6,27 @@
 </head>
 <body>
     <header>
-        <div class="logo">VITA</div>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="{{ url_for('login') }}">Upload Pdf</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="auth-buttons">
-            <a href="{{ url_for('login') }}" class="login">Login</a>
-            <a href="{{ url_for('register') }}" class="register">Register</a>
-        </div>
-    </header>
+    <div class="logo">
+        VITA
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li class="auth-buttons">
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            {% else %}
+                <li class="auth-buttons">
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('register') }}">Register</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <ul class="flashes">
