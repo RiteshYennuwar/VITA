@@ -1,0 +1,228 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333333;
+    background-color: #f9f9f9;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dddddd;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333333;
+    font-weight: bold;
+}
+
+.auth-buttons a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #333333;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+.hero p {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #666666;
+}
+
+.hero .cta {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+main {
+    padding: 20px;
+}
+
+.introduction, .courses, .testimonials {
+    margin-bottom: 40px;
+}
+
+.introduction h2, .courses h2, .testimonials h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #333333;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.introduction p {
+    font-size: 18px;
+    color: #666666;
+}
+
+.introduction img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+.course-card, .testimonial-card {
+    border: 1px solid #dddddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.course-card h3, .testimonial-card h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333333;
+}
+
+.course-card p, .testimonial-card p {
+    color: #666666;
+}
+
+.course-card .enroll, .testimonial-card .enroll {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+footer {
+    background-color: #333333;
+    color: #dddddd;
+    text-align: center;
+    padding: 20px;
+}
+
+footer .social-media {
+    margin-top: 10px;
+}
+
+footer .social-media a {
+    color: #dddddd;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.form-container h2 {
+    margin-bottom: 20px;
+    color: #333333;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333333;
+}
+
+.form-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333333;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.form-container p {
+    text-align: center;
+    color: #666666;
+}
+
+.form-container p a {
+    color: #333333;
+    text-decoration: none;
+}
+.pdf-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pdf-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #dddddd;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.pdf-item h3 {
+    margin: 0;
+    color: #333333;
+    font-size: 20px;
+}
+
+.pdf-item .download {
+    background-color: #333333;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pdf-item .download:hover {
+    background-color: #555555;
+}

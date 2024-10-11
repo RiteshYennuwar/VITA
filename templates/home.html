@@ -3,39 +3,183 @@
 {% block content %}
 
 <section class="hero">
-    <h1>Welcome to VITA</h1>
-    <p>Your gateway for Studies.</p>
-    <button class="cta">Explore the Website</button>
+    <h1>Welcome to VITA</h1><br>
 </section>
+<h3>Virtual Insight for Tailored Academics </h3>
+<h3>Your gateway for Studies.</h2><br><br>
+<a href="{{ url_for('login') }}"><button class="cta">Get Started!</button></a> 
+<br><br><br>
 <main>
+    <div class="features-grid">
+        <div class="features-item">
+            <img src="{{ url_for('static', filename='images/studyplan.png') }}" alt="Studyplan">
+            <div class="features-content">
+                <h3 style="color: rgb(238, 207, 207); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Tailored Study Plan</h3>
+                <ul>
+                    <li>Personalized learning schedule</li>
+                    <li>Focused on student's unique goals</li>
+                    <li>Flexible adjustments for improvement</li>
+                </ul>
+            </div>
+        </div>
+        <div class="features-item">
+            <img src="{{ url_for('static', filename='images/smartnotes.jpg') }}" alt="Movix">
+            <div class="features-content">
+                <h3 style="color: rgb(238, 207, 207); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Smart Notes</h3>
+                <ul>
+                    <li>Auto-generated summaries</li>
+                    <li>Tagging and categorization</li>
+                    <li>Quick search and retrieval</li>
+                </ul>
+            </div>
+        </div>
+        <div class="features-item">
+            <img src="{{ url_for('static', filename='images/progress.png') }}" alt="MedicalChatBot">
+            <div class="features-content">
+                <h3 style="color: rgb(238, 207, 207);font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Progress</h3>
+                <ul>
+                    <li>Real-time performance insights</li>
+                    <li>Visual reports and analytics</li>
+                    <li>Set and achieve milestones</li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="features-item">
+            <img src="{{ url_for('static', filename='images/chatwithpdf.jpg') }}" alt="MyFoodRecipe">
+            <div class="features-content">
+                <h3 style="color: rgb(238, 207, 207);font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Chat With PDF</h3>
+                <ul>
+                    <li>Interactive learning experience</li>
+                    <li>Engage with your documents in real-time</li>
+                    <li>AI-powered Q&A with study materials</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<br><br><br><br>
     <section class="introduction">
-        <h2>About Us</h2>
-        <p>VITA is friendly platfrom for your studies.</p>
-        <!-- <img src="intro.png" alt="Introduction Image"> -->
+        <h1 style="font-family: cursive;color: rgb(184, 180, 180);">About Us</h1>
     </section>
-    <section class="courses">
-        <h2>Our Features</h2>
-        <div class="course-card">
-            <h3>AI Powered Notes</h3>
-            <p>Keep a track of your studies with AI powered notes.</p>
-            <button class="enroll">Notes</button>
+
+    <!-- Our Team Grid Section -->
+    <section class="about-us" id="about-us">
+
+        <div class="grid-container">
+            <!-- Team Member 1 -->
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/Bobby.png') }}" alt="Team Member 1">
+                <h3>BalavardhanReddy Vasipalli</h3>
+                <p>I'm Full Stack Web Developer</p>
+                                <ul class="wrapper">
+                    <li class="icon instagram">
+                        <a href="https://www.instagram.com" target="_blank">
+                            <span class="tooltip">Instagram</span>
+                            <span><i class="fab fa-instagram"></i></span>
+                        </a>
+                    </li>
+                    <li class="icon github">
+                        <a href="https://www.github.com" target="_blank">
+                            <span class="tooltip">Github</span>
+                            <span><i class="fab fa-github"></i></span>
+                        </a>
+                    </li>
+                    <li class="icon linkedin">
+                        <a href="https://www.linkedin.com" target="_blank">
+                            <span class="tooltip">LinkedIn</span>
+                            <span><i class="fab fa-linkedin-in"></i></span>
+                        </a>
+                    </li>
+                </ul>
+  
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/ritesh.jpg') }}" alt="Team Member 2">
+                <h3>Ritesh Yennuwar</h3>
+                <p>I'm Artificial Intelligence Developer</p>
+                <ul class="wrapper">
+                    <li class="icon instagram">
+                        <a href="https://www.instagram.com" target="_blank">
+                            <span class="tooltip">Instagram</span>
+                            <span><i class="fab fa-instagram"></i></span>
+                        </a>
+                    </li>
+                    <li class="icon github">
+                        <a href="https://www.github.com" target="_blank">
+                            <span class="tooltip">Github</span>
+                            <span><i class="fab fa-github"></i></span>
+                        </a>
+                    </li>
+                    <li class="icon linkedin">
+                        <a href="https://www.linkedin.com" target="_blank">
+                            <span class="tooltip">LinkedIn</span>
+                            <span><i class="fab fa-linkedin-in"></i></span>
+                        </a>
+                    </li>
+                </ul>
+
+               
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="team-member">
+                <img src="{{ url_for('static', filename='images/sitaram.png') }}" alt="Team Member 3">
+
+                <h3>Sitaram Yelleswarapu</h3>
+                <p>I'm Artifical Intelligence Developer</p>
+                <ul class="wrapper">
+                    <li class="icon instagram">
+                        <a href="https://www.instagram.com" target="_blank">
+                            <span class="tooltip">Instagram</span>
+                            <span><i class="fab fa-instagram"></i></span>
+                        </a>
+                    </li>
+                    <li class="icon github">
+                        <a href="https://www.github.com" target="_blank">
+                            <span class="tooltip">Github</span>
+                            <span><i class="fab fa-github"></i></span>
+                        </a>
+                    </li>
+                    <li class="icon linkedin">
+                        <a href="https://www.linkedin.com" target="_blank">
+                            <span class="tooltip">LinkedIn</span>
+                            <span><i class="fab fa-linkedin-in"></i></span>
+                        </a>
+                    </li>
+                </ul>
+
+
+            </div>
+
+            <!-- Team Member 4 -->
+            <div class="team-member">   
+                <img src="{{ url_for('static', filename='images/nitesh.jpg') }}" alt="Team Member 4">
+                <h3>Nitesh Patel</h3>
+                <p>I'm Android Developer</p>
+                <ul class="wrapper">
+                    <li class="icon instagram">
+                        <a href="https://www.instagram.com" target="_blank">
+                            <span class="tooltip">Instagram</span>
+                            <span><i class="fab fa-instagram"></i></span>
+                        </a>
+                    </li>
+                    <li class="icon github">
+                        <a href="https://www.github.com" target="_blank">
+                            <span class="tooltip">Github</span>
+                            <span><i class="fab fa-github"></i></span>
+                        </a>
+                    </li>
+                    <li class="icon linkedin">
+                        <a href="https://www.linkedin.com" target="_blank">
+                            <span class="tooltip">LinkedIn</span>
+                            <span><i class="fab fa-linkedin-in"></i></span>
+                        </a>
+                    </li>
+                </ul>      
         </div>
-        <div class="course-card">
-            <h3>Chatbot</h3>
-            <p>Chat with your pdf for more insights.</p>
-            <button class="enroll">Chatbot</button>
-        </div>
-    </section>
-    <section class="testimonials">
-        <h2>Testimonials</h2>
-        <div class="testimonial-card">
-            <p>"Great learning experience!"</p>
-            <h3>John Doe</h3>
-        </div>
-        <div class="testimonial-card">
-            <p>"I highly recommend VITA!"</p>
-            <h3>Jane Smith</h3>
-        </div>
+
     </section>
 </main>
 
