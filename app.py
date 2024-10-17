@@ -63,7 +63,7 @@ def login():
             login_user(User(user['_id']))
             flash('Login successful!')
             print("User authenticated and logged in")
-            return redirect(url_for('upload'))
+            return redirect(url_for('dashboard'))
         
         flash('Invalid username or password.')
         print("Invalid login attempt")
@@ -90,7 +90,7 @@ def download(filename):
         return send_file(file_stream, download_name=filename, as_attachment=True)
     else:
         flash('File not found or access denied.')
-        return redirect(url_for('upload'))
+        return redirect(url_for('dashboard'))
 
 @app.route('/dashboard')
 @login_required
@@ -102,7 +102,7 @@ def dashboard():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=4040)

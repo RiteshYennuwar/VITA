@@ -35,6 +35,31 @@ header .logo {
   color: #ffffff;
 }
 
+.cta {
+  /* background: linear-gradient(45deg, #ff61fa, #ff9966); */
+  background-color: #884993;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  padding: 15px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition:background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+.cta:hover {
+  /* background: linear-gradient(45deg, #ff9966, #ff6f61); */
+  background-color: #863494;
+  transform: scale(1.05);
+}
+
+.cta:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255, 105, 135, 0.5);
+}
+
 .logo {
   width: 100px; /* Adjust width as needed */
   height: 100px; /* Adjust height as needed */
@@ -327,6 +352,12 @@ nav ul li a {
 }
 
 /* PDF and Documentation Links */
+.pdf-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .pdf-item {
   text-decoration: none;
   font-size: 18px;
