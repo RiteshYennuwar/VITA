@@ -1,19 +1,41 @@
 {% extends "base.html" %}
 {% block title %}Dashboard{% endblock %}
+{% block header %}{% endblock %}
 {% block content %}
 
-<section class="dashboard">
-    <h1>Your Uploaded PDFs</h1>
-    <div class="pdf-list">
-        {% for pdf in user_pdfs %}
-        <div class="pdf-item">
-            <h3>{{ pdf.name }}</h3>
-            <a href="{{ url_for('download', filename=pdf.name) }}" download>
-                <button class="download">Download</button>
-            </a>
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="pdf-list">
+            {% for pdf in user_pdfs %}
+            <div class="pdf-item">
+                <i class="pdf-icon">📄</i>
+                <span class="pdf-name">{{ pdf.name }}</span>
+                <a href="{{ url_for('download', filename=pdf.name) }}" download>
+                    <button class="download-btn">Download</button>
+                </a>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        
+        <!-- Settings and Profile -->
+        <div class="sidebar-bottom">
+            <div class="settings">
+                <i class="settings-icon">⚙️</i>
+                <span class="settings-label">Settings</span>
+            </div>
+            <div class="profile">
+                <i class="profile-icon">👤</i>
+                <span class="profile-label">Profile</span>
+            </div>
+        </div>
     </div>
-</section>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <h1>Your Uploaded PDFs</h1>
+        <!-- Main content like PDF viewing or other dashboard elements go here -->
+    </div>
+</div>
 
 {% endblock %}

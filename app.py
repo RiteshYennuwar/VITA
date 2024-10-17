@@ -44,11 +44,11 @@ def register():
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=16)
         
         if users.find_one({'username': username}):
-            flash('Username already exists.')
+            flash('Username already exists.','error')
             return redirect(url_for('register'))
         
         users.insert_one({'username': username, 'password': hashed_password})
-        flash('Registration successful!')
+        flash('Registration successful!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html')
 
@@ -61,12 +61,10 @@ def login():
         
         if user and check_password_hash(user['password'], password):
             login_user(User(user['_id']))
-            flash('Login successful!')
-            print("User authenticated and logged in")
+            flash('Login successful!', 'success')
             return redirect(url_for('dashboard'))
         
-        flash('Invalid username or password.')
-        print("Invalid login attempt")
+        flash('Invalid username or password.', 'error') 
     return render_template('login.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -76,7 +74,7 @@ def upload():
     if request.method == 'POST':
         file = request.files['file']
         fs.put(file, filename=file.filename, user_id=current_user.id)
-        flash('File uploaded successfully!')
+        flash('File uploaded successfully!', 'success')
     return render_template('upload.html')
 
 
@@ -89,7 +87,7 @@ def download(filename):
         file_stream.seek(0) 
         return send_file(file_stream, download_name=filename, as_attachment=True)
     else:
-        flash('File not found or access denied.')
+        flash('File not found or access denied.','error')
         return redirect(url_for('dashboard'))
 
 @app.route('/dashboard')
@@ -102,7 +100,8 @@ def dashboard():
 @login_required
 def logout():
     logout_user()
+    flash('Logout successful!', 'success')
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=4040)
+    app.run(debug=True,host='0.0.0.0', port=4040)

@@ -1,42 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+    {% block header %}
     <header>
-    <div class="logo"></div>
-    <nav>
-        <ul>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li class="auth-buttons">
-                    <a href="{{ url_for('logout') }}">Logout</a>
-                </li>
-            {% else %}
-                <li class="auth-buttons">
-                    <a href="{{ url_for('login') }}">Login</a>
-                    <a href="{{ url_for('register') }}">Register</a>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
-</header>
-
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <ul class="flashes">
-            {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
+        <div class="logo"></div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li class="auth-buttons">
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="auth-buttons">
+                        <a href="{{ url_for('login') }}">Login</a>
+                        <a href="{{ url_for('register') }}">Register</a>
+                    </li>
+                {% endif %}
             </ul>
-        {% endif %}
-    {% endwith %}
+        </nav>
+    </header>
+    {% endblock %}
+
+    <!-- Flash messages section -->
+    <div class="flash-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="flash-message {{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main content block -->
     {% block content %}{% endblock %}
+
     <footer>
         <p>&copy; 2024 VITA</p>
         <div class="social-media">
@@ -45,5 +55,16 @@
             <a href="#">Instagram</a>
         </div>
     </footer>
+
+    <!-- JavaScript to hide flash messages after a few seconds -->
+    <script>
+        setTimeout(function() {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(message => {
+                message.style.opacity = '0';
+                setTimeout(() => message.remove(), 1000); // Remove after transition
+            });
+        }, 2000); // Flash messages disappear after 5 seconds
+    </script>
 </body>
 </html>

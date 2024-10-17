@@ -4,11 +4,14 @@
 body {
   background: #0f0202;
   margin: 0;
+  padding: 0;
   font-family: 'Poppins', Arial, sans-serif;
   color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100vw;
+  box-sizing: border-box;
 }
 
 /* Gradient Animation */
@@ -24,8 +27,8 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  background: #0f0202;
   box-sizing: border-box;
 }
 
@@ -36,7 +39,6 @@ header .logo {
 }
 
 .cta {
-  /* background: linear-gradient(45deg, #ff61fa, #ff9966); */
   background-color: #884993;
   border: none;
   border-radius: 25px;
@@ -45,12 +47,11 @@ header .logo {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition:background 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
+}
 
 .cta:hover {
-  /* background: linear-gradient(45deg, #ff9966, #ff6f61); */
   background-color: #863494;
   transform: scale(1.05);
 }
@@ -61,9 +62,9 @@ header .logo {
 }
 
 .logo {
-  width: 100px; /* Adjust width as needed */
-  height: 100px; /* Adjust height as needed */
-  background-image: url('images/vitalogo.png'); /* Adjust the path to your logo image */
+  width: 100px;
+  height: 100px;
+  background-image: url('images/vitalogo.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -89,6 +90,35 @@ nav ul li a {
   -webkit-text-fill-color: transparent;
   animation: gradient 8s ease infinite;
 }
+
+/* Flash message styles */
+.flash-container {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.flashes {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.flash-message {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: opacity 1s ease-in-out;
+}
+
+.flash-message.info { background-color: #3498db; }
+.flash-message.success { background-color: #2ecc71; }
+.flash-message.error { background-color: #e74c3c; }
+.flash-message.warning { background-color: #f39c12; }
 
 .auth-buttons a {
   margin-left: 15px;
@@ -182,7 +212,10 @@ nav ul li a {
   color: white;
 }
 
-.form-container .login-btn, .form-container .upload-btn, .form-container .logout-btn, .register-btn{
+.form-container .login-btn,
+.form-container .upload-btn,
+.form-container .logout-btn,
+.register-btn {
   width: 100%;
   padding: 0.75rem;
   background-color: #333333;
@@ -193,7 +226,10 @@ nav ul li a {
   transition: background-color 0.3s;
 }
 
-.form-container .login-btn:hover, .form-container .upload-btn:hover, .form-container .logout-btn:hover, .register-btn:hover{
+.form-container .login-btn:hover,
+.form-container .upload-btn:hover,
+.form-container .logout-btn:hover,
+.register-btn:hover {
   background-color: #0056b3;
 }
 
@@ -290,8 +326,13 @@ nav ul li a {
 }
 
 .git:hover, .linked:hover {
-  background-color: #08384d;
+  background-color: #2386c8;
   transform: scale(1.05);
+}
+
+.git:focus, .linked:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(255, 105, 135, 0.5);
 }
 
 /* Social Media Icons */
@@ -351,47 +392,238 @@ nav ul li a {
   pointer-events: auto;
 }
 
-/* PDF and Documentation Links */
-.pdf-list {
+/* Dashboard Layout */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  margin: 0; /* Remove any margin */
+  padding: 0; /* Remove padding */
+}
+
+
+/* Download Button */
+.download-btn {
+  margin-left: auto;
+  padding: 5px 10px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  display: none; /* Hidden by default */
+}
+
+.pdf-item:hover .download-btn {
+  display: inline-block;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  position: fixed; /* Make sure the sidebar stays fixed */
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 50px; /* Default collapsed width */
+  background-color: #1b1b1b;
+  transition: width 0.3s ease;
+  z-index: 100; /* Ensure it's behind the navbar */
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar:hover {
+  width: 250px; /* Expand width on hover */
+}
+
+.main-content {
+  margin-left: 80px; /* Adjust the main content space for collapsed sidebar */
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar:hover ~ .main-content {
+  margin-left: 250px; /* Adjust content margin when sidebar expands */
+}
+
+/* Sidebar PDF List */
+.pdf-list {
+  width: 100%;
+  margin-top: 20px;
 }
 
 .pdf-item {
-  text-decoration: none;
-  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
   color: white;
-  display: inline-block;
-  margin-top: 10px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  overflow: hidden; /* Hide overflow */
+  white-space: nowrap; /* Ensure text doesn't wrap */
+  text-overflow: ellipsis; /* Add ellipsis for long text */
 }
 
 .pdf-item:hover {
-  color: #d6d6d6;
-  transition: 0.3s ease;
+  background-color: #333;
 }
 
-/* Responsive Adjustments */
+.pdf-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.pdf-name {
+  display: inline-block;
+  max-width: 150px; /* Set maximum width for truncation */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* Truncate long text */
+}
+
+/* Sidebar Hover Behavior */
+.sidebar:hover .pdf-name {
+  max-width: 200px; /* Expand the truncation limit when sidebar expands */
+}
+
+/* Sidebar Bottom (Settings and Profile) */
+.sidebar-bottom {
+  width: 100%;
+  padding: 20px;
+}
+
+.settings, .profile {
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.settings:hover, .profile:hover {
+  background-color: #333;
+}
+
+.settings-icon, .profile-icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.settings-label, .profile-label {
+  display: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar:hover .settings-label, .sidebar:hover .profile-label {
+  display: inline-block;
+}
+
+.main-content {
+  margin-left: 80px; /* Adjust the main content space for collapsed sidebar */
+  transition: margin-left 0.3s ease;
+}
+
+
+/* Footer Styling */
+footer {
+  background-color: #0f0202;
+  padding: 30px 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #f1eded;
+  margin-top: 50px;
+  width: 100%;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer p {
+  margin: 5px 0;
+}
+
+footer .social-icons {
+  margin-top: 10px;
+}
+
+footer .social-icons a {
+  margin: 0 10px;
+  display: inline-block;
+  color: white;
+  font-size: 24px;
+}
+
+footer .social-icons a:hover {
+  color: #0056b3;
+  transform: scale(1.1);
+}
+
+/* Responsive Styling */
 @media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
+  .hero h1 {
+    font-size: 45px;
   }
 
-  nav {
-    display: none;
+  .hero p {
+    font-size: 20px;
   }
 
-  nav.open {
-    display: flex;
-    width: 100%;
+  .form-container {
+    width: 90%;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
   }
 
   .grid-container {
     grid-template-columns: 1fr;
   }
 
-  .features-grid {
-    grid-template-columns: 1fr;
+  .header .logo {
+    font-size: 50px;
+  }
+
+  .auth-buttons {
+    flex-direction: column;
+  }
+
+  .auth-buttons a {
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+
+  .cta {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .hero p {
+    font-size: 18px;
+  }
+
+  .cta {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+
+  header .logo {
+    font-size: 40px;
   }
 }
