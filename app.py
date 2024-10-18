@@ -6,6 +6,11 @@ import gridfs
 import io
 from bson import ObjectId
 import os
+from src.document_processor import read_pdf, chunk_text
+from src.embedding_handler import store_embeddings_in_pinecone
+from src.pinecone_manager import initialize_pinecone
+from src.query_handler import process_query
+from config import PINECONE_API_KEY, PINECONE_ENVIRONMENT, COHERE_API_KEY
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -14,6 +19,7 @@ mongo = PyMongo(app)
 fs = gridfs.GridFS(mongo.db)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+index = initialize_pinecone(PINECONE_API_KEY, PINECONE_ENVIRONMENT)
 
 # User collection
 users = mongo.db.users
@@ -73,8 +79,16 @@ def upload():
     print(f"Current user: {current_user}")
     if request.method == 'POST':
         file = request.files['file']
-        fs.put(file, filename=file.filename, user_id=current_user.id)
-        flash('File uploaded successfully!', 'success')
+        file_id = fs.put(file, filename=file.filename, user_id=current_user.id)
+        flash('File uploaded successfully in mongo!', 'success')
+        file.seek(0)
+        document_text = read_pdf(file)
+        flash('PDF processed successfully!', 'info')
+        text_chunks = chunk_text(document_text)
+        flash('Text chunked successfully!', 'info')
+        namespace = f"user_{current_user.id}_file_{file_id}"
+        store_embeddings_in_pinecone(namespace,index, text_chunks)
+        flash('File uploaded successfully in pinecone!', 'success')
     return render_template('upload.html')
 
 

@@ -1,0 +1,10 @@
+PyPDF2
+pinecone-client 
+sentence-transformers 
+cohere
+numpy
+typing
+python-dotenv
+bson
+flask
+-e .
