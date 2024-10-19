@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, send_file
+from flask import Flask, render_template, redirect, url_for, request, flash, send_file, jsonify
 from flask_pymongo import PyMongo
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,7 +10,7 @@ from src.document_processor import read_pdf, chunk_text
 from src.embedding_handler import store_embeddings_in_pinecone
 from src.pinecone_manager import initialize_pinecone
 from src.query_handler import process_query
-from config import PINECONE_API_KEY, PINECONE_ENVIRONMENT, COHERE_API_KEY
+from config import PINECONE_API_KEY, PINECONE_ENVIRONMENT, COHERE_API_KEY, PINECONE_INDEX_NAME
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -116,6 +116,30 @@ def logout():
     logout_user()
     flash('Logout successful!', 'success')
     return redirect(url_for('home'))
+
+@app.route('/query', methods=['POST'])
+@login_required
+def query():
+    data = request.json
+    query_text = data.get('query')
+    pdf_id = data.get('pdf_id')
+    print(f"Query: {query_text}, PDF ID: {pdf_id}")
+    
+    if not query_text or not pdf_id:
+        return jsonify({'error': 'No query or PDF ID provided'}), 400
+
+    # Generate a unique namespace for the current user and PDF
+    namespace = f"user_{current_user.id}_file_{pdf_id}"
+    print(f"Namespace: {namespace}")
+
+    try:
+        # Process query and generate answer
+        generated_answer = process_query(query_text, COHERE_API_KEY, namespace)
+        print(f"Generated answer: {generated_answer}")
+        return jsonify({'answer': generated_answer})
+    except Exception as e:
+        print(f"Error: {e}")
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=4040)

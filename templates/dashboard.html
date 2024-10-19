@@ -8,9 +8,9 @@
     <div class="sidebar">
         <div class="pdf-list">
             {% for pdf in user_pdfs %}
-            <div class="pdf-item">
-                <i class="pdf-icon">📄</i>
-                <span class="pdf-name">{{ pdf.name }}</span>
+            <div class="pdf-item" data-pdf-id="{{ pdf._id }}">
+                <span class="pdf-icon">📄</span>
+                <span class="pdf-name">{{ pdf.filename }}</span>
                 <a href="{{ url_for('download', filename=pdf.name) }}" download>
                     <button class="download-btn">Download</button>
                 </a>
@@ -34,8 +34,79 @@
     <!-- Main Content Area -->
     <div class="main-content">
         <h1>Your Uploaded PDFs</h1>
-        <!-- Main content like PDF viewing or other dashboard elements go here -->
+        <p>Select a PDF from the sidebar to start chatting.</p>
+        <div id="pdf-info"></div>
+        <!-- Add your main content here -->
+    </div>
+    <div class="chatbot-container">
+        <div class="chat-header">PDF Chatbot</div>
+        <div id="chatbot-messages"></div>
+        <div class="chat-input-container">
+            <input type="text" id="chatbot-input" placeholder="Type a message...">
+            <button id="chatbot-submit">➤</button>
+        </div>
     </div>
 </div>
 
+<script>
+    let selectedPdfId = null;
+    let selectedPdfName = null;
+
+    document.querySelectorAll('.pdf-item').forEach(item => {
+        item.addEventListener('click', function() {
+            selectedPdfId = this.getAttribute('data-pdf-id');
+            selectedPdfName = this.querySelector('.pdf-name').textContent;
+            document.getElementById('pdf-info').textContent = `Selected PDF: ${selectedPdfName}`;
+            document.getElementById('chatbot-messages').innerHTML = ''; // Clear previous messages
+            addMessage('Bot', `You've selected "${selectedPdfName}". How can I help you with this document?`);
+        });
+    });
+
+    document.getElementById('chatbot-submit').addEventListener('click', sendMessage);
+    document.getElementById('chatbot-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        const input = document.getElementById('chatbot-input');
+        const message = input.value.trim();
+        if (message && selectedPdfId) {
+            addMessage('You', message);
+            input.value = '';
+
+            // Send the query to the server
+            fetch('/query', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    query: message,
+                    pdf_id: selectedPdfId
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                addMessage('Bot', data.answer);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                addMessage('Bot', 'Sorry, I encountered an error processing your request.');
+            });
+        } else if (!selectedPdfId) {
+            addMessage('Bot', 'Please select a PDF from the sidebar before asking questions.');
+        }
+    }
+
+    function addMessage(sender, message) {
+        const messagesDiv = document.getElementById('chatbot-messages');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', sender === 'You' ? 'user-message' : 'bot-message');
+        messageElement.textContent = message;
+        messagesDiv.appendChild(messageElement);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+</script>
 {% endblock %}

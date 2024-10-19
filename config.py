@@ -7,7 +7,7 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "be9c0ded-e23a-447e-a3d8-459804
 PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT", "us-west1-gcp")
 PINECONE_INDEX_NAME = "vita-index"
 
-COHERE_API_KEY = os.getenv("COHERE_API_KEY", "your_cohere_api_key_here")
+COHERE_API_KEY = os.getenv("COHERE_API_KEY", "fYCErUiYGFRCZc7uLRY2kDvBKJ0M9E71TTxYrECa")
 
 EMBEDDING_MODEL_NAME = "all-mpnet-base-v2"
 EMBEDDING_DIMENSION = 768
