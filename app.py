@@ -39,6 +39,10 @@ def load_user(user_id):
     print("User not found")
     return None
 
+@login_manager.unauthorized_handler
+def unauthorized():
+    flash('You need to be logged in to access this page.', 'warning')
+    return redirect(url_for('login'))
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -48,13 +52,22 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['email']
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=16)
         
         if users.find_one({'username': username}):
-            flash('Username already exists.','error')
+            flash('Username already exists.', 'error')
             return redirect(url_for('register'))
         
-        users.insert_one({'username': username, 'password': hashed_password})
+        users.insert_one({
+            'username': username,
+            'password': hashed_password,
+            'first_name': first_name.capitalize(),
+            'last_name': last_name.capitalize(),
+            'email': email
+        })
         flash('Registration successful!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html')
@@ -79,17 +92,23 @@ def login():
 def upload():
     print(f"Current user: {current_user}")
     if request.method == 'POST':
-        file = request.files['file']
-        file_id = fs.put(file, filename=file.filename, user_id=current_user.id)
-        flash('File uploaded successfully in mongo!', 'success')
-        file.seek(0)
-        document_text = read_pdf(file)
-        flash('PDF processed successfully!', 'info')
-        text_chunks = chunk_text(document_text)
-        flash('Text chunked successfully!', 'info')
-        namespace = f"user_{current_user.id}_file_{file_id}"
-        store_embeddings_in_pinecone(namespace,index, text_chunks)
-        flash('File uploaded successfully in pinecone!', 'success')
+        try:
+            file = request.files['file']
+            file_id = fs.put(file, filename=file.filename, user_id=current_user.id)
+            flash('File uploaded successfully in mongo!', 'success')
+            file.seek(0)
+            document_text = read_pdf(file)
+            flash('PDF processed successfully!', 'info')
+            text_chunks = chunk_text(document_text)
+            flash('Text chunked successfully!', 'info')
+            namespace = f"user_{current_user.id}_file_{file_id}"
+            store_embeddings_in_pinecone(namespace, index, text_chunks)
+            flash('File uploaded successfully in pinecone!', 'success')
+            return redirect(url_for('dashboard'))
+        except Exception as e:
+            print(f"Error during file upload: {e}")
+            flash('An error occurred during file upload. Please try again.', 'error')
+            return redirect(url_for('upload'))
     return render_template('upload.html')
 
 
@@ -109,7 +128,34 @@ def download(filename):
 @login_required
 def dashboard():
     user_pdfs = fs.find({'user_id': current_user.id})  
-    return render_template('dashboard.html', user_pdfs=user_pdfs)
+    user = users.find_one({'_id': ObjectId(current_user.id)}) 
+    if user:
+        print(f"User: {user['first_name']}")
+    return render_template('dashboard.html', user_pdfs=user_pdfs, user = user)
+
+@app.route('/profile')
+@login_required
+def profile():
+    user = users.find_one({'_id': ObjectId(current_user.id)}) 
+    return render_template('profile.html', user=user)
+
+@app.route('/update_profile', methods=['POST'])
+@login_required
+def update_profile():
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    email = request.form['email']
+
+    users.update_one(
+        {'_id': ObjectId(current_user.id)},
+        {'$set': {
+            'first_name': first_name.capitalize(),
+            'last_name': last_name.capitalize(),
+            'email': email
+        }}
+    )
+    flash('Profile updated successfully!', 'success')
+    return redirect(url_for('profile'))
 
 @app.route('/logout')
 @login_required

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}VITA{% endblock %}
 {% block content %}
 
 <section class="hero">
@@ -7,7 +7,11 @@
 </section>
 <h3>Virtual Insight for Tailored Academics </h3>
 <h3>Your gateway for Studies.</h2><br><br>
-<a href="{{ url_for('login') }}"><button class="cta">Get Started!</button></a> 
+    {% if current_user.is_authenticated %}
+<a href="{{ url_for('dashboard') }}"><button class="cta">Get Started!</button></a> 
+{% else %}
+<a href="{{ url_for('register') }}"><button class="cta">Get Started!</button></a>
+{% endif %}
 <br><br><br>
 <main>
     <div class="features-grid">

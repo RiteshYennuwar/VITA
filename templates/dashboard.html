@@ -16,16 +16,24 @@
             </div>
             {% endfor %}
         </div>
-
+        
         <!-- Settings and Profile -->
         <div class="sidebar-bottom">
+            <div class="sidebar-upload">
+                <i class="sidebar-upload-icon">➕</i>
+                <a href="{{ url_for('upload') }}" class="sidebar-a">
+                <span class="sidebar-upload-label">Upload PDF</span>
+                </a>
+            </div>
             <div class="settings">
                 <i class="settings-icon">⚙️</i>
                 <span class="settings-label">Settings</span>
             </div>
             <div class="profile">
                 <i class="profile-icon">👤</i>
+                <a href="{{ url_for('profile') }}" class="sidebar-a">
                 <span class="profile-label">Profile</span>
+                </a>
             </div>
         </div>
     </div>
@@ -33,7 +41,7 @@
     <!-- Main Content Area -->
     <div class="main-content">
         <h1>Your Uploaded PDFs</h1>
-        <p>Select a PDF from the sidebar to start chatting.</p>
+        <p>Welcome, {{ user['first_name'] }} {{ user['last_name']}}! Select a PDF from the sidebar to start chatting.</p>
         <div id="pdf-info"></div>
         <!-- Add your main content here -->
     </div>
@@ -83,6 +91,10 @@
             addMessage('You', message);
             input.value = '';
 
+            // Add loading message from bot
+            const loadingMessageId = 'loading-message';
+            addMessage('Bot', '<span id="' + loadingMessageId + '">...</span>');
+
             // Send the query to the server
             fetch('/query', {
                 method: 'POST',
@@ -96,10 +108,20 @@
             })
             .then(response => response.json())
             .then(data => {
+                // Remove loading message
+                const loadingMessageElement = document.getElementById(loadingMessageId);
+                if (loadingMessageElement) {
+                    loadingMessageElement.parentElement.remove();
+                }
                 addMessage('Bot', data.answer);
             })
             .catch((error) => {
                 console.error('Error:', error);
+                // Remove loading message
+                const loadingMessageElement = document.getElementById(loadingMessageId);
+                if (loadingMessageElement) {
+                    loadingMessageElement.parentElement.remove();
+                }
                 addMessage('Bot', 'Sorry, I encountered an error processing your request.');
             });
         } else if (!selectedPdfId) {

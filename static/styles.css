@@ -10,7 +10,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -204,7 +204,8 @@ nav ul li a {
 }
 
 .form-container input[type="text"],
-.form-container input[type="password"] {
+.form-container input[type="password"],
+.form-container input[type="email"] {
   width: 100%;
   padding: 0.75rem;
   margin-bottom: 1rem;
@@ -212,12 +213,16 @@ nav ul li a {
   border-radius: 5px;
   background-color: #121212;
   color: white;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .form-container .login-btn,
 .form-container .upload-btn,
 .form-container .logout-btn,
-.register-btn {
+.form-container .update-btn,
+.form-container .register-btn,
+.form-container .edit-btn {
   width: 100%;
   padding: 0.75rem;
   background-color: #333333;
@@ -228,11 +233,34 @@ nav ul li a {
   transition: background-color 0.3s;
 }
 
+.form-container .cancel-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #00000000;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.form-container .cancel-btn:hover{
+  background-color: red;
+}
 .form-container .login-btn:hover,
 .form-container .upload-btn:hover,
 .form-container .logout-btn:hover,
-.register-btn:hover {
+.form-container .register-btn:hover,
+.form-container .update-btn:hover,
+.form-container .edit-btn:hover {
   background-color: #0056b3;
+}
+
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items: center;
 }
 
 /* Features Section */
@@ -417,7 +445,7 @@ nav ul li a {
   display: none; /* Hidden by default */
 }
 
-.pdf-item:hover .pdf-name::after {
+/* .pdf-item:hover .pdf-name::after {
   content: attr(data-fullname);
   position: absolute;
   background: #333;
@@ -425,7 +453,7 @@ nav ul li a {
   border-radius: 5px;
   color: white;
   white-space: nowrap;
-}
+} */
 
 .pdf-item:hover .download-btn {
   display: inline-block;
@@ -508,7 +536,7 @@ nav ul li a {
   padding: 20px;
 }
 
-.settings, .profile {
+.settings, .profile, .sidebar-upload{
   display: flex;
   align-items: center;
   color: white;
@@ -517,24 +545,28 @@ nav ul li a {
   transition: background-color 0.3s;
 }
 
-.settings:hover, .profile:hover {
+.settings:hover, .profile:hover, .sidebar-upload:hover {
   background-color: #333;
 }
 
-.settings-icon, .profile-icon {
+.settings-icon, .profile-icon, .sidebar-upload-icon {
   font-size: 24px;
   margin-right: 10px;
 }
 
-.settings-label, .profile-label {
+.settings-label, .profile-label, .sidebar-upload-label {
   display: none;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.sidebar:hover .settings-label, .sidebar:hover .profile-label {
+.sidebar:hover .settings-label, .sidebar:hover .profile-label, .sidebar:hover .sidebar-upload-label {
   display: inline-block;
+}
+
+.sidebar-a {
+  color: inherit;
 }
 
 .main-content {
