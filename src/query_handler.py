@@ -38,3 +38,12 @@ def process_query(query: str, cohere_api_key: str, namespace: str) -> str:
     retrieved_chunks = query_pinecone(namespace, query)
     answer = generate_answer(query, retrieved_chunks, cohere_api_key)
     return answer
+
+def get_all_vectors_in_namespace(namespace: str) -> List[dict]:
+    # List all vector IDs in the namespace and convert to a list
+    vector_ids = list(index.list(namespace=namespace))
+    
+    # Fetch vectors by their IDs
+    vectors = index.fetch(ids=vector_ids, namespace=namespace)
+    
+    return vectors['vectors']

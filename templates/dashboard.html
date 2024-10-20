@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block title %}Dashboard{% endblock %}
-{% block header %}{% endblock %}
 {% block content %}
 
 <div class="dashboard-container">
@@ -17,7 +16,7 @@
             </div>
             {% endfor %}
         </div>
-        
+
         <!-- Settings and Profile -->
         <div class="sidebar-bottom">
             <div class="settings">
@@ -38,8 +37,16 @@
         <div id="pdf-info"></div>
         <!-- Add your main content here -->
     </div>
-    <div class="chatbot-container">
-        <div class="chat-header">PDF Chatbot</div>
+
+    <!-- Chatbot Button -->
+    <button id="chatbot-toggle" class="chatbot-toggle">💬</button>
+
+    <!-- Chatbot Container (Initially Hidden) -->
+    <div class="chatbot-container hidden">
+        <div class="chat-header">
+            PDF Chatbot
+            <button id="chatbot-close" class="chatbot-close">✖</button>
+        </div>
         <div id="chatbot-messages"></div>
         <div class="chat-input-container">
             <input type="text" id="chatbot-input" placeholder="Type a message...">
@@ -104,9 +111,24 @@
         const messagesDiv = document.getElementById('chatbot-messages');
         const messageElement = document.createElement('div');
         messageElement.classList.add('message', sender === 'You' ? 'user-message' : 'bot-message');
-        messageElement.textContent = message;
+        if (sender === 'Bot') {
+            messageElement.innerHTML = message; // For rendering bot messages with HTML content
+        } else {
+            messageElement.textContent = message;
+        }
         messagesDiv.appendChild(messageElement);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
+
+    // Toggle Chatbot Visibility
+    const chatbotContainer = document.querySelector('.chatbot-container');
+    document.getElementById('chatbot-toggle').addEventListener('click', function() {
+        chatbotContainer.classList.toggle('hidden');
+    });
+
+    // Close Chatbot
+    document.getElementById('chatbot-close').addEventListener('click', function() {
+        chatbotContainer.classList.add('hidden');
+    });
 </script>
 {% endblock %}

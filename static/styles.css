@@ -27,13 +27,15 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   background: #0f0202;
   box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  z-index: 101;
 }
 
 header .logo {
-  font-size: 80px;
+  font-size: 50px;
   font-weight: bold;
   color: #ffffff;
 }
@@ -62,8 +64,8 @@ header .logo {
 }
 
 .logo {
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   background-image: url('images/vitalogo.png');
   background-size: contain;
   background-repeat: no-repeat;
@@ -83,7 +85,7 @@ nav ul li {
 
 nav ul li a {
   text-decoration: none;
-  font-size: 1.4em;
+  font-size: 1.2em;
   background: linear-gradient(45deg, #2c6481, #884993, #d94d8196, #bd450e);
   background-size: 400% 400%;
   -webkit-background-clip: text;
@@ -395,9 +397,11 @@ nav ul li a {
 /* Dashboard Layout */
 .dashboard-container {
   display: flex;
-  height: 100vh;
+  padding-left: 60px;
   margin: 0; /* Remove any margin */
-  padding: 0; /* Remove padding */
+  width: 100%; /* Ensure it covers the full width */
+  height: 100vh; /* Ensure it covers the full height */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
 
@@ -413,6 +417,16 @@ nav ul li a {
   display: none; /* Hidden by default */
 }
 
+.pdf-item:hover .pdf-name::after {
+  content: attr(data-fullname);
+  position: absolute;
+  background: #333;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  white-space: nowrap;
+}
+
 .pdf-item:hover .download-btn {
   display: inline-block;
 }
@@ -423,6 +437,7 @@ nav ul li a {
   top: 0;
   left: 0;
   bottom: 0;
+  padding-top: 60px;
   width: 50px; /* Default collapsed width */
   background-color: #1b1b1b;
   transition: width 0.3s ease;
@@ -523,30 +538,100 @@ nav ul li a {
 }
 
 .main-content {
-  margin-left: 80px; /* Adjust the main content space for collapsed sidebar */
+  margin-left: 0; /* Remove margin to cover the whole page */
   transition: margin-left 0.3s ease;
   flex-grow: 1;
   padding: 20px;
   overflow-y: auto;
 }
+
+/* Chatbot Button at Bottom Right */
+.chatbot-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #0056b3;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 100;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.chatbot-toggle:hover {
+  background-color: #863494;
+}
+
+/* Chatbot Container */
 .chatbot-container {
-  width: 300px;
-  background-color: #d95050;
-  border-left: 1px solid #ccc;
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+  width: 500px;
+  max-height: 500px;
+  background-color: #333;
+  border-radius: 10px 10px 0 0;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
+
+.chatbot-container.hidden {
+  display: none;
+}
+
 .chat-header {
-  background-color: #0f0202;
+  background-color: #0056b3;
   color: white;
   padding: 10px;
-  text-align: center;
-  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px 10px 0 0;
 }
+
+.chatbot-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 #chatbot-messages {
   flex-grow: 1;
-  overflow-y: auto;
   padding: 10px;
+  overflow-y: auto;
+  color: white;
+  background-color: #444;
+}
+
+.chat-input-container {
+  display: flex;
+  padding: 10px;
+  background-color: #333;
+  border-radius: 0 0 10px 10px;
+}
+
+.chat-input-container input {
+  flex-grow: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.chat-input-container button {
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .message {
   max-width: 80%;
@@ -556,17 +641,19 @@ nav ul li a {
   clear: both;
 }
 .user-message {
-  background-color: #dcf8c6;
+  background-color: #333333;
+  color: white;
   float: right;
 }
 .bot-message {
-  background-color: rgb(234, 158, 158);
+  background-color: #884993;
+  color: white;
   float: left;
 }
 .chat-input-container {
   display: flex;
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #1b1b1b;
 }
 #chatbot-input {
   flex-grow: 1;
@@ -574,9 +661,11 @@ nav ul li a {
   border: none;
   border-radius: 20px;
   margin-right: 10px;
+  background-color: #121212;
+  color: white;
 }
 #chatbot-submit {
-  background-color: #075e54;
+  background-color: #884993;
   color: white;
   border: none;
   border-radius: 50%;

@@ -9,8 +9,9 @@ import os
 from src.document_processor import read_pdf, chunk_text
 from src.embedding_handler import store_embeddings_in_pinecone
 from src.pinecone_manager import initialize_pinecone
-from src.query_handler import process_query
+from src.query_handler import process_query, get_all_vectors_in_namespace
 from config import PINECONE_API_KEY, PINECONE_ENVIRONMENT, COHERE_API_KEY, PINECONE_INDEX_NAME
+import markdown
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -135,6 +136,8 @@ def query():
     try:
         # Process query and generate answer
         generated_answer = process_query(query_text, COHERE_API_KEY, namespace)
+        generated_answer = markdown.markdown(generated_answer)
+        # print(get_all_vectors_in_namespace(namespace))
         print(f"Generated answer: {generated_answer}")
         return jsonify({'answer': generated_answer})
     except Exception as e:
