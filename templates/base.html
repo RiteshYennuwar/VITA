@@ -6,7 +6,6 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{{ url_for('static', filename='images/vitalogo.png') }}" type="image/x-icon">
 </head>
 <body>
@@ -19,12 +18,24 @@
                 {% if current_user.is_authenticated %}
                     <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
                     <li class="auth-buttons">
-                        <a href="{{ url_for('logout') }}">Logout</a>
+                        <!-- Logout Button -->
+                        <button class="btn">
+                            <span class="text">Logout</span>
+                            <span class="icon"><i class="fas fa-sign-out-alt"></i></span>
+                        </button>
                     </li>
                 {% else %}
                     <li class="auth-buttons">
-                        <a href="{{ url_for('login') }}">Login</a>
-                        <a href="{{ url_for('register') }}">Register</a>
+                        <!-- Login Button -->
+                        <button class="btn">
+                            <span class="text">Login</span>
+                            <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+                        </button>
+                        <!-- Register Button -->
+                        <button class="btn">
+                            <span class="text">Register</span>
+                            <span class="icon"><i class="fas fa-user-plus"></i></span>
+                        </button>
                     </li>
                 {% endif %}
             </ul>

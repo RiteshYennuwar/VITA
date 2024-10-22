@@ -9,15 +9,16 @@
         Your browser does not support the video tag.
     </video>
     <div class="hero-content">
-        <h1>Welcome to VITA</h1>
-        <h3>Virtual Insight for Tailored Academics</h3>
-        <h3>Your gateway for Studies.</h3><br>
-        {% if current_user.is_authenticated %}
-            <a href="{{ url_for('dashboard') }}"><button class="cta">Get Started!</button></a>
-        {% else %}
-            <a href="{{ url_for('register') }}"><button class="cta">Get Started!</button></a>
-        {% endif %}
+    <h1 style="font-size: 200px; color: white;">Welcome to VITA</h1> <!-- Enlarged text -->
+    <h3>Virtual Insight for Tailored Academics</h3>
+    <h3>Your gateway for Studies.</h3><br>
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('dashboard') }}"><button class="cta">Get Started!</button></a>
+    {% else %}
+        <a href="{{ url_for('register') }}"><button class="cta">Get Started!</button></a>
+    {% endif %}
     </div>
+
 </section>
 
 <br><br><br>

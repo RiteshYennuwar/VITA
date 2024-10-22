@@ -40,28 +40,6 @@ header .logo {
   color: #ffffff;
 }
 
-.cta {
-  background-color: #884993;
-  border: none;
-  border-radius: 25px;
-  color: white;
-  padding: 15px 30px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.cta:hover {
-  background-color: #863494;
-  transform: scale(1.05);
-}
-
-.cta:focus {
-  outline: none;
-  box-shadow: 0 0 0 4px rgba(255, 105, 135, 0.5);
-}
 
 .logo {
   width: 60px;
@@ -150,7 +128,7 @@ nav ul li a {
 }
 
 .hero h1 {
-  font-size: 60px;
+  font-size: 100px;
   background: linear-gradient(45deg, #2c6481, #884993, #d94d8196, #bd450e);
   background-size: 400% 400%;
   -webkit-background-clip: text;
@@ -164,18 +142,27 @@ nav ul li a {
 }
 
 .hero .cta {
-  font-size: 50px;
-  background-color: #884993;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 30px; /* Reduced font size */
+    background: linear-gradient(90deg, #03001C 0%, #301E67 100%); /* Updated gradient background */
+    color: white;
+    padding: 8px 16px; /* Reduced padding */
+    border-radius: 4px; /* Slightly reduced border-radius */
+    transition: background 0.3s ease, transform 0.2s ease;
+    background-clip: text; /* For gradient text if needed */
+    -webkit-background-clip: text; /* For Safari */
+    text-fill-color: transparent; /* If you want text to be transparent with gradient */
 }
 
 .hero .cta:hover {
-  background-color: #863494;
-  transform: scale(1.05);
+    background: linear-gradient(90deg, #301E67 0%, #03001C 100%); /* Change gradient on hover */
+    transform: scale(1.05);
 }
+
+
+
+
+
+
 
 /* Forms and Button Adjustments */
 .form-container {
@@ -214,47 +201,57 @@ nav ul li a {
   background-color: #121212;
   color: white;
   box-sizing: border-box;
-  position: relative;
 }
 
+/* Button Styles */
 .form-container .login-btn,
 .form-container .upload-btn,
 .form-container .logout-btn,
 .form-container .update-btn,
 .form-container .register-btn,
-.form-container .edit-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #333333;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s;
-}
-
+.form-container .edit-btn,
 .form-container .cancel-btn {
   width: 100%;
   padding: 0.75rem;
-  background-color: #00000000;
-  color: white;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.3s;
+  color: white;
+  transition: background-color 0.3s, transform 0.2s; /* Added transform for effect */
 }
 
-.form-container .cancel-btn:hover{
-  background-color: red;
+/* Specific Button Colors */
+.form-container .login-btn,
+.form-container .upload-btn,
+.form-container .logout-btn,
+.form-container .register-btn,
+.form-container .update-btn,
+.form-container .edit-btn {
+  background-color: #333333; /* Default button background */
 }
+
+.form-container .cancel-btn {
+  background-color: transparent; /* Transparent background for cancel button */
+  border: 1px solid #f00; /* Red border for cancel button */
+  color: #f00; /* Red text for cancel button */
+}
+
+/* Hover Effects */
 .form-container .login-btn:hover,
 .form-container .upload-btn:hover,
 .form-container .logout-btn:hover,
-.form-container .register-btn:hover,
 .form-container .update-btn:hover,
+.form-container .register-btn:hover,
 .form-container .edit-btn:hover {
-  background-color: #0056b3;
+  background-color: #0056b3; /* Change background on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
 }
+
+.form-container .cancel-btn:hover {
+  background-color: rgba(255, 0, 0, 0.2); /* Light red background on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
 
 .profile-section {
   display: flex;
@@ -836,17 +833,35 @@ footer .social-icons a:hover {
     padding: 20px; /* Add some padding */
 }
 
+
 .cta {
-    background-color: rgba(0, 123, 255, 0.7); /* Button background with transparency */
-    color: white; /* Button text color */
-    padding: 10px 20px; /* Button padding */
-    border: none; /* Remove border */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 1.2rem; /* Increase font size */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition */
+  font-family: "Open Sans", sans-serif;
+  font-size: 10.5px; /* Reduced font size by about 25% */
+  letter-spacing: 1px; /* Keeping letter spacing the same */
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #000;
+  cursor: pointer;
+  border: 1.5px solid; /* Reduced border thickness */
+  padding: 0.15em 0.3em; /* Reduced padding */
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px, 5px 5px 0px 0px;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 
-.cta:hover {
-    background-color: rgba(0, 123, 255, 1); /* Solid color on hover */
+.cta:active {
+  box-shadow: 0px 0px 0px 0px;
+  top: 5px;
+  left: 5px;
 }
+
+@media (min-width: 768px) {
+  .cta {
+    padding: 0.15em 0.45em; /* Adjusted padding for larger screens */
+  }
+}
+
+
+
