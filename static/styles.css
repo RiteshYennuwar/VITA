@@ -809,3 +809,44 @@ footer .social-icons a:hover {
     font-size: 40px;
   }
 }
+/* Hero Section Styles */
+/* Hero Section Styles */
+.hero {
+    position: relative;
+    height: 100vh; /* Full viewport height */
+    width: 100%; /* Full viewport width */
+    overflow: hidden; /* Prevent overflow */
+}
+
+#bg-video {
+    position: absolute;
+    top: 0; /* Align to the top */
+    left: 0; /* Align to the left */
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    object-fit: cover; /* Cover the entire section */
+    z-index: 1; /* Keep video behind content */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2; /* Bring content above the video */
+    color: white; /* Text color for visibility */
+    text-align: center; /* Center the text */
+    padding: 20px; /* Add some padding */
+}
+
+.cta {
+    background-color: rgba(0, 123, 255, 0.7); /* Button background with transparency */
+    color: white; /* Button text color */
+    padding: 10px 20px; /* Button padding */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 1.2rem; /* Increase font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.cta:hover {
+    background-color: rgba(0, 123, 255, 1); /* Solid color on hover */
+}

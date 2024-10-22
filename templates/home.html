@@ -2,17 +2,27 @@
 {% block title %}VITA{% endblock %}
 {% block content %}
 
+<!-- Hero section with video background -->
 <section class="hero">
-    <h1>Welcome to VITA</h1><br>
+    <video autoplay muted loop id="bg-video">
+        <source src="{{ url_for('static', filename='images/background_vid.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="hero-content">
+        <h1>Welcome to VITA</h1>
+        <h3>Virtual Insight for Tailored Academics</h3>
+        <h3>Your gateway for Studies.</h3><br>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard') }}"><button class="cta">Get Started!</button></a>
+        {% else %}
+            <a href="{{ url_for('register') }}"><button class="cta">Get Started!</button></a>
+        {% endif %}
+    </div>
 </section>
-<h3>Virtual Insight for Tailored Academics </h3>
-<h3>Your gateway for Studies.</h2><br><br>
-    {% if current_user.is_authenticated %}
-<a href="{{ url_for('dashboard') }}"><button class="cta">Get Started!</button></a> 
-{% else %}
-<a href="{{ url_for('register') }}"><button class="cta">Get Started!</button></a>
-{% endif %}
+
 <br><br><br>
+
+<!-- Main content of the page -->
 <main>
     <div class="features-grid">
         <div class="features-item">
@@ -27,7 +37,7 @@
             </div>
         </div>
         <div class="features-item">
-            <img src="{{ url_for('static', filename='images/smartnotes.jpg') }}" alt="Movix">
+            <img src="{{ url_for('static', filename='images/smartnotes.jpg') }}" alt="Smart Notes">
             <div class="features-content">
                 <h3 style="color: rgb(238, 207, 207); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Smart Notes</h3>
                 <ul>
@@ -38,21 +48,20 @@
             </div>
         </div>
         <div class="features-item">
-            <img src="{{ url_for('static', filename='images/progress.png') }}" alt="MedicalChatBot">
+            <img src="{{ url_for('static', filename='images/progress.png') }}" alt="Progress">
             <div class="features-content">
-                <h3 style="color: rgb(238, 207, 207);font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Progress</h3>
+                <h3 style="color: rgb(238, 207, 207); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Progress</h3>
                 <ul>
                     <li>Real-time performance insights</li>
                     <li>Visual reports and analytics</li>
                     <li>Set and achieve milestones</li>
                 </ul>
-
             </div>
         </div>
         <div class="features-item">
-            <img src="{{ url_for('static', filename='images/chatwithpdf.jpg') }}" alt="MyFoodRecipe">
+            <img src="{{ url_for('static', filename='images/chatwithpdf.jpg') }}" alt="Chat With PDF">
             <div class="features-content">
-                <h3 style="color: rgb(238, 207, 207);font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Chat With PDF</h3>
+                <h3 style="color: rgb(238, 207, 207); font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Chat With PDF</h3>
                 <ul>
                     <li>Interactive learning experience</li>
                     <li>Engage with your documents in real-time</li>
@@ -61,129 +70,124 @@
             </div>
         </div>
     </div>
-<br><br><br><br>
+
+    <br><br><br><br>
+
     <section class="introduction">
         <h1 style="font-family: cursive;color: rgb(184, 180, 180);">About Us</h1>
     </section>
 
     <!-- Our Team Grid Section -->
     <section class="about-us" id="about-us">
-
         <div class="grid-container">
             <!-- Team Member 1 -->
             <div class="team-member">
                 <img src="{{ url_for('static', filename='images/Bobby.png') }}" alt="Team Member 1">
                 <h3>BalavardhanReddy Vasipalli</h3>
-                <p>I'm Full Stack Web Developer</p>
-                                <ul class="wrapper">
+                <p>I'm a Full Stack Web Developer</p>
+                <ul class="wrapper">
                     <li class="icon instagram">
                         <a href="https://www.instagram.com" target="_blank">
                             <span class="tooltip">Instagram</span>
-                            <span><i class="fab fa-instagram"></i></span>
+                            <i class="fab fa-instagram"></i>
                         </a>
                     </li>
                     <li class="icon github">
                         <a href="https://www.github.com" target="_blank">
                             <span class="tooltip">Github</span>
-                            <span><i class="fab fa-github"></i></span>
+                            <i class="fab fa-github"></i>
                         </a>
                     </li>
                     <li class="icon linkedin">
                         <a href="https://www.linkedin.com" target="_blank">
                             <span class="tooltip">LinkedIn</span>
-                            <span><i class="fab fa-linkedin-in"></i></span>
+                            <i class="fab fa-linkedin-in"></i>
                         </a>
                     </li>
                 </ul>
-  
             </div>
 
             <!-- Team Member 2 -->
             <div class="team-member">
                 <img src="{{ url_for('static', filename='images/ritesh.jpg') }}" alt="Team Member 2">
                 <h3>Ritesh Yennuwar</h3>
-                <p>I'm Artificial Intelligence Developer</p>
+                <p>I'm an Artificial Intelligence Developer</p>
                 <ul class="wrapper">
                     <li class="icon instagram">
                         <a href="https://www.instagram.com" target="_blank">
                             <span class="tooltip">Instagram</span>
-                            <span><i class="fab fa-instagram"></i></span>
+                            <i class="fab fa-instagram"></i>
                         </a>
                     </li>
                     <li class="icon github">
                         <a href="https://www.github.com" target="_blank">
                             <span class="tooltip">Github</span>
-                            <span><i class="fab fa-github"></i></span>
+                            <i class="fab fa-github"></i>
                         </a>
                     </li>
                     <li class="icon linkedin">
                         <a href="https://www.linkedin.com" target="_blank">
                             <span class="tooltip">LinkedIn</span>
-                            <span><i class="fab fa-linkedin-in"></i></span>
+                            <i class="fab fa-linkedin-in"></i>
                         </a>
                     </li>
                 </ul>
-
-               
             </div>
 
             <!-- Team Member 3 -->
             <div class="team-member">
                 <img src="{{ url_for('static', filename='images/sitaram.png') }}" alt="Team Member 3">
-
                 <h3>Sitaram Yelleswarapu</h3>
-                <p>I'm Artifical Intelligence Developer</p>
+                <p>I'm an Artificial Intelligence Developer</p>
                 <ul class="wrapper">
                     <li class="icon instagram">
                         <a href="https://www.instagram.com" target="_blank">
                             <span class="tooltip">Instagram</span>
-                            <span><i class="fab fa-instagram"></i></span>
+                            <i class="fab fa-instagram"></i>
                         </a>
                     </li>
                     <li class="icon github">
                         <a href="https://www.github.com" target="_blank">
                             <span class="tooltip">Github</span>
-                            <span><i class="fab fa-github"></i></span>
+                            <i class="fab fa-github"></i>
                         </a>
                     </li>
                     <li class="icon linkedin">
                         <a href="https://www.linkedin.com" target="_blank">
                             <span class="tooltip">LinkedIn</span>
-                            <span><i class="fab fa-linkedin-in"></i></span>
+                            <i class="fab fa-linkedin-in"></i>
                         </a>
                     </li>
                 </ul>
-
-
             </div>
 
             <!-- Team Member 4 -->
-            <div class="team-member">   
+            <div class="team-member">
                 <img src="{{ url_for('static', filename='images/nitesh.jpg') }}" alt="Team Member 4">
                 <h3>Nitesh Patel</h3>
-                <p>I'm Android Developer</p>
+                <p>I'm an Android Developer</p>
                 <ul class="wrapper">
                     <li class="icon instagram">
                         <a href="https://www.instagram.com" target="_blank">
                             <span class="tooltip">Instagram</span>
-                            <span><i class="fab fa-instagram"></i></span>
+                            <i class="fab fa-instagram"></i>
                         </a>
                     </li>
                     <li class="icon github">
                         <a href="https://www.github.com" target="_blank">
                             <span class="tooltip">Github</span>
-                            <span><i class="fab fa-github"></i></span>
+                            <i class="fab fa-github"></i>
                         </a>
                     </li>
                     <li class="icon linkedin">
                         <a href="https://www.linkedin.com" target="_blank">
                             <span class="tooltip">LinkedIn</span>
-                            <span><i class="fab fa-linkedin-in"></i></span>
+                            <i class="fab fa-linkedin-in"></i>
                         </a>
                     </li>
-                </ul>      
+                </ul>
+            </div>
         </div>
-
     </section>
 </main>
 
