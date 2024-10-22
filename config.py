@@ -6,6 +6,7 @@ load_dotenv()
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY", "be9c0ded-e23a-447e-a3d8-459804738105")
 PINECONE_ENVIRONMENT = os.getenv("PINECONE_ENVIRONMENT", "us-west1-gcp")
 PINECONE_INDEX_NAME = "vita-index"
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY', 'AIzaSyAsg4gpsBHgHO7Wqm63yhI3NigJgkueYkM')
 
 COHERE_API_KEY = os.getenv("COHERE_API_KEY", "fYCErUiYGFRCZc7uLRY2kDvBKJ0M9E71TTxYrECa")
 
