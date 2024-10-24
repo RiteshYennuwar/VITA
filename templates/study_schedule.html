@@ -1,0 +1,190 @@
+{% extends "dashboard.html" %}
+{% block head %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static', filename='images/vitalogo.png') }}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* Example of overriding Bootstrap default colors */
+        body {
+            background-color: #0f0202;
+            color: white; /* Change body background */
+        }
+
+        .card {
+            background-color: #0f0202; /* Change card background */
+            border-color: #ddd;        /* Change card border color */
+        }
+
+        .modal-content{
+            color: #0f0202;
+        }
+        .progress-bar{
+            color: #0f0202;
+        }
+        
+    </style>
+</head>
+{% endblock %}
+{% block maincontent %}
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Study Schedule - {{ schedule.title }}</h2>
+        <div class="progress" style="width: 200px;">
+            {% set progress = (schedule.schedule.values()|selectattr('completed')|list|length / schedule.schedule|length * 100)|round|int %}
+            <div class="progress-bar" role="progressbar" style="width: {{ progress }}%">
+                {{ progress }}% Complete
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for date, content in schedule.schedule.items() %}
+        <div class="col">
+            <div class="card h-100 {% if content.completed %}border-success{% endif %}">
+                <div class="card-header {% if content.completed %}bg-success text-white{% endif %}">
+                    <h5 class="mb-0">Day {{ loop.index }} - {{ date }}</h5>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-primary generate-notes" 
+                            data-schedule-id="{{ schedule._id }}"
+                            data-date="{{ date }}">
+                        {% if content.generated %}View Notes{% else %}Generate Notes{% endif %}
+                    </button>
+                    {% if content.generated and not content.completed %}
+                    <button class="btn btn-success mark-complete"
+                            data-schedule-id="{{ schedule._id }}"
+                            data-date="{{ date }}">Marked Complete</button>
+                    </button>
+                    {% endif %}
+                </div>
+                {% if content.completed %}
+                <div class="card-footer bg-success text-white">
+                    <small>Completed ✓</small>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Notes Modal -->
+<div class="modal fade" id="notesModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Study Notes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="notesContent" class="markdown-body">
+                    <!-- Notes will be inserted here -->
+                </div>
+                <div id="loadingSpinner" class="text-center d-none">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Generating notes...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+const notesModal = new bootstrap.Modal(document.getElementById('notesModal'));
+const notesContent = document.getElementById('notesContent');
+const loadingSpinner = document.getElementById('loadingSpinner');
+
+document.querySelectorAll('.generate-notes').forEach(button => {
+    button.addEventListener('click', async function() {
+        const scheduleId = this.dataset.scheduleId;
+        const date = this.dataset.date;
+        
+        notesContent.innerHTML = '';
+        loadingSpinner.classList.remove('d-none');
+        notesModal.show();
+        
+        try {
+            const response = await fetch(`/generate_notes/${scheduleId}/${date}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                notesContent.innerHTML = marked.parse(data.notes);
+                if (this.textContent === 'Generate Notes') {
+                    this.textContent = 'View Notes';
+                    // Add the Mark Complete button if it doesn't exist
+                    if (!this.nextElementSibling) {
+                        const completeBtn = document.createElement('button');
+                        completeBtn.className = 'btn btn-success mark-complete';
+                        completeBtn.textContent = 'Mark Complete';
+                        completeBtn.dataset.scheduleId = scheduleId;
+                        completeBtn.dataset.date = date;
+                        this.parentNode.appendChild(completeBtn);
+                        setupMarkComplete(completeBtn);
+                    }
+                }
+            } else {
+                notesContent.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+            }
+        } catch (error) {
+            notesContent.innerHTML = `<div class="alert alert-danger">Error generating notes</div>`;
+        } finally {
+            loadingSpinner.classList.add('d-none');
+        }
+    });
+});
+
+function setupMarkComplete(button) {
+    button.addEventListener('click', async function() {
+        const scheduleId = this.dataset.scheduleId;
+        const date = this.dataset.date;
+        
+        try {
+            const response = await fetch(`/mark_complete/${scheduleId}/${date}`, {
+                method: 'POST'
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                // Update the card appearance
+                const card = this.closest('.card');
+                card.classList.add('border-success');
+                card.querySelector('.card-header').classList.add('bg-success', 'text-white');
+                
+                // Disable buttons
+                card.querySelector('.generate-notes').disabled = true;
+                this.disabled = true;
+                
+                // Add completed footer
+                const footer = document.createElement('div');
+                footer.className = 'card-footer bg-success text-white';
+                footer.innerHTML = '<small>Completed ✓</small>';
+                card.appendChild(footer);
+                
+                // Update progress bar
+                location.reload(); // Simple way to update progress
+            }
+        } catch (error) {
+            console.error('Error marking as complete:', error);
+        }
+    });
+}
+
+document.querySelectorAll('.mark-complete').forEach(setupMarkComplete);
+</script>
+{% endblock %}

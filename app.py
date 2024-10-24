@@ -10,8 +10,17 @@ from src.document_processor import read_pdf, chunk_text
 from src.embedding_handler import store_embeddings_in_pinecone
 from src.pinecone_manager import initialize_pinecone
 from src.query_handler import process_query, get_all_vectors_in_namespace
+from src.study_planner import (
+    create_study_schedule,
+    save_study_schedule,
+    generate_notes_for_chunks,
+    mark_day_completed
+)
+from datetime import datetime
 from config import PINECONE_API_KEY, PINECONE_ENVIRONMENT, COHERE_API_KEY, PINECONE_INDEX_NAME
 import markdown
+from bson.errors import InvalidId
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -90,27 +99,86 @@ def login():
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload():
-    print(f"Current user: {current_user}")
     if request.method == 'POST':
         try:
             file = request.files['file']
+            num_days = int(request.form['num_days'])
+            
+            if num_days <= 0:
+                flash('Please enter a valid number of days.', 'error')
+                return redirect(url_for('upload'))
+            
+            # Upload file to GridFS
             file_id = fs.put(file, filename=file.filename, user_id=current_user.id)
-            flash('File uploaded successfully in mongo!', 'success')
+            
+            # Process the PDF
             file.seek(0)
             document_text = read_pdf(file)
-            flash('PDF processed successfully!', 'info')
             text_chunks = chunk_text(document_text)
-            flash('Text chunked successfully!', 'info')
+            
+            # Create and save study schedule
+            schedule = create_study_schedule(text_chunks, num_days)
+            schedule_id = save_study_schedule(mongo.db,file.filename, current_user.id, file_id, schedule)
+            
+            # Store embeddings in Pinecone
             namespace = f"user_{current_user.id}_file_{file_id}"
             store_embeddings_in_pinecone(namespace, index, text_chunks)
-            flash('File uploaded successfully in pinecone!', 'success')
-            return redirect(url_for('dashboard'))
+            
+            return redirect(url_for('study_schedule', schedule_id=schedule_id))
+            
         except Exception as e:
             print(f"Error during file upload: {e}")
             flash('An error occurred during file upload. Please try again.', 'error')
             return redirect(url_for('upload'))
+            
     return render_template('upload.html')
 
+@app.route('/study/<schedule_id>')
+@login_required
+def study_schedule(schedule_id):
+    schedule = mongo.db.study_schedules.find_one({'_id': ObjectId(schedule_id)})
+    if not schedule or schedule['user_id'] != current_user.id:
+        flash('Schedule not found or access denied.', 'error')
+        return redirect(url_for('dashboard'))
+    
+    return render_template('study_schedule.html', schedule=schedule)
+
+@app.route('/generate_notes/<schedule_id>/<date>')
+@login_required
+def generate_daily_notes(schedule_id, date):
+    schedule = mongo.db.study_schedules.find_one({'_id': ObjectId(schedule_id)})
+    if not schedule or schedule['user_id'] != current_user.id:
+        return jsonify({'success': False, 'error': 'Access denied'}), 403
+    
+    try:
+        day_data = schedule['schedule'][date]
+        if day_data['generated']:
+            return jsonify({'success': True, 'notes': day_data['notes']})
+        
+        day_number = list(schedule['schedule'].keys()).index(date) + 1
+        total_days = len(schedule['schedule'])
+        notes = generate_notes_for_chunks(day_data['chunks'], day_number, total_days)
+        
+        mongo.db.study_schedules.update_one(
+            {'_id': ObjectId(schedule_id)},
+            {
+                '$set': {
+                    f'schedule.{date}.generated': True,
+                    f'schedule.{date}.notes': notes
+                }
+            }
+        )
+        
+        return jsonify({'success': True, 'notes': notes})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 400
+
+@app.route('/mark_complete/<schedule_id>/<date>', methods=['POST'])
+@login_required
+def mark_complete(schedule_id, date):
+    if mark_day_completed(mongo.db, ObjectId(schedule_id), date):
+        return jsonify({'success': True})
+    return jsonify({'success': False}), 400
 
 @app.route('/download/<filename>')
 @login_required
@@ -122,7 +190,6 @@ def download(filename):
         return send_file(file_stream, download_name=filename, as_attachment=True)
     else:
         flash('File not found or access denied.','error')
-        return redirect(url_for('dashboard'))
 
 @app.route('/dashboard')
 @login_required
