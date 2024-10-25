@@ -20,6 +20,11 @@ body {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+@keyframes subheadingAnimation {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
 
 /* Header Styling */
 header {
@@ -146,16 +151,44 @@ nav ul li a {
 /* Hero Section */
 .hero {
   text-align: center;
-  padding: 50px 20px;
+  padding: 0px 0px;
+  overflow: visible;
+  position : relative;
 }
 
 .hero h1 {
-  font-size: 60px;
+  /*font-size: 100px;*/
   background: linear-gradient(45deg, #2c6481, #884993, #d94d8196, #bd450e);
   background-size: 400% 400%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient 8s ease infinite;
+  /*position: relative;*/
+  /*font-family: "Sacramento", cursive;*/
+  font-size: 100px;
+  transform: scale(0.9);
+
+}
+h1 span {
+    /*font-size: 10px;*/
+  background: linear-gradient(45deg, #2c6481, #884993, #d94d8196, #bd450e);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient 8s ease infinite;
+  /*position : relative;*/
+  display: block;
+  font-size: 10px;
+  transform: scale(0.8);
+
+}
+
+.hero .quote{
+   font-size: 30px; /* Adjust the font size as needed */
+  /*font-style: italic;*/
+  font-weight: bold;
+  margin-top: 0px; /* Add some space between the header and the quote */
+  color: #e0e0e0;
 }
 
 .hero p {
@@ -893,6 +926,5 @@ footer .social-icons a:hover {
     font-size: 20px;
   }
 }
-
 
 
