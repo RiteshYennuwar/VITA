@@ -549,16 +549,18 @@ nav ul li a {
 /* Sidebar Bottom (Settings and Profile) */
 .sidebar-bottom {
   width: 100%;
-  padding: 20px;
+  padding-bottom: 20px;
 }
 
 .settings, .profile, .sidebar-upload{
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   color: white;
   padding: 10px;
-  cursor: pointer;
+  padding-left: 5px;
   transition: background-color 0.3s;
+  cursor: pointer;
 }
 
 .settings:hover, .profile:hover, .sidebar-upload:hover {
