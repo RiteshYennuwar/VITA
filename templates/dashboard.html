@@ -66,8 +66,8 @@
         {% for pdf in user_pdfs %}
             <div class="pdf-item" data-pdf-id="{{ pdf._id|string }}" style="cursor: pointer;">
                 <span class="pdf-icon">📄</span>
-                <!-- <span class="pdf-name">{{ pdf.filename }}</span> -->
-                <a class= "pdf-name" href="{{ url_for('study_schedule', schedule_id=pdf.schedule_id) }}">{{ pdf.filename }}</a>
+                <span class="pdf-name">{{ pdf.filename }}</span>
+                <a href="{{ url_for('study_schedule', schedule_id=pdf.schedule_id) }}"><button class="study-btn">↳</button></a>
                 <a href="{{ url_for('download', filename=pdf.filename) }}" download class="download-link">
                     <button class="download-btn">Download</button>
                 </a>
@@ -98,13 +98,13 @@
 
       <!-- Main Content Area -->
       <div class="main-content">
-        {% block maincontent %}
         <h1>Your Uploaded PDFs</h1>
         <p>
           Welcome, {{ user['first_name'] }} {{ user['last_name']}}! Select a PDF
           from the sidebar to start chatting.
         </p>
         <div id="pdf-info"></div>
+        {% block maincontent %}
         <!-- Add your main content here -->
         {% endblock %}
       </div>

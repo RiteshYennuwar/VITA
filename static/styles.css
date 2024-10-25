@@ -445,6 +445,18 @@ nav ul li a {
   display: none; /* Hidden by default */
 }
 
+.study-btn {
+  margin-left: auto;
+  margin-right: 5px;
+  padding: 5px 10px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  display: none; /* Hidden by default */
+}
+
 /* .pdf-item:hover .pdf-name::after {
   content: attr(data-fullname);
   position: absolute;
@@ -456,6 +468,10 @@ nav ul li a {
 } */
 
 .pdf-item:hover .download-btn {
+  display: inline-block;
+}
+
+.pdf-item:hover .study-btn {
   display: inline-block;
 }
 
