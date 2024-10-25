@@ -274,5 +274,73 @@ def query():
         print(f"Error: {e}")
         return jsonify({'error': str(e)}), 500
 
+@app.route('/settings')
+@login_required
+def settings():
+    user_pdfs = fs.find({'user_id': current_user.id})
+    return render_template('settings.html', user_pdfs=user_pdfs)
+
+@app.route('/delete_pdf/<pdf_id>', methods=['POST'])
+@login_required
+def delete_pdf(pdf_id):
+    try:
+        # Verify the PDF belongs to the current user
+        pdf = fs.find_one({'_id': ObjectId(pdf_id), 'user_id': current_user.id})
+        if not pdf:
+            flash('PDF not found or access denied.', 'error')
+            return redirect(url_for('settings'))
+        
+        # Delete associated study schedule if it exists
+        schedule = mongo.db.study_schedules.find_one({'file_id': ObjectId(pdf_id)})
+        if schedule:
+            mongo.db.study_schedules.delete_one({'_id': schedule['_id']})
+        
+        # Delete the PDF from GridFS
+        fs.delete(ObjectId(pdf_id))
+        
+        # Delete associated vectors from Pinecone
+        namespace = f"user_{current_user.id}_file_{pdf_id}"
+        index.delete(deleteAll='true', namespace=namespace)
+        
+        flash('PDF deleted successfully.', 'success')
+    except Exception as e:
+        flash(f'Error deleting PDF: {str(e)}', 'error')
+    
+    return redirect(url_for('settings'))
+
+@app.route('/delete_account', methods=['POST'])
+@login_required
+def delete_account():
+    try:
+        # Delete all PDFs belonging to the user
+        user_pdfs = fs.find({'user_id': current_user.id})
+        for pdf in user_pdfs:
+            # Delete associated study schedules
+            schedule = mongo.db.study_schedules.find_one({'file_id': pdf._id})
+            if schedule:
+                mongo.db.study_schedules.delete_one({'_id': schedule['_id']})
+            
+            # Delete vectors from Pinecone
+            namespace = f"user_{current_user.id}_file_{str(pdf._id)}"
+            index.delete(deleteAll='true', namespace=namespace)
+            
+            # Delete the PDF
+            fs.delete(pdf._id)
+        
+        # Delete user's study schedules
+        mongo.db.study_schedules.delete_many({'user_id': current_user.id})
+        
+        # Delete the user
+        users.delete_one({'_id': ObjectId(current_user.id)})
+        
+        # Log out the user
+        logout_user()
+        
+        flash('Your account has been successfully deleted.', 'success')
+        return redirect(url_for('home'))
+    except Exception as e:
+        flash(f'Error deleting account: {str(e)}', 'error')
+        return redirect(url_for('settings'))
+    
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0', port=4040)
