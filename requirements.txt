@@ -7,4 +7,10 @@ typing
 python-dotenv
 bson
 flask
+markdown
+flask-pymongo
+flask-login
+gridfs
+datetime
+werkzeug
 -e .
