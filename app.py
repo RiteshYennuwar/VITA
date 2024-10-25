@@ -118,7 +118,12 @@ def upload():
             
             # Create and save study schedule
             schedule = create_study_schedule(text_chunks, num_days)
-            schedule_id = save_study_schedule(mongo.db,file.filename, current_user.id, file_id, schedule)
+            schedule_id = save_study_schedule(mongo.db, file.filename, current_user.id, file_id, schedule)
+
+            mongo.db['fs.files'].update_one(
+                {'_id': ObjectId(file_id)},
+                {'$set': {'schedule_id': schedule_id}}
+            )
             
             # Store embeddings in Pinecone
             namespace = f"user_{current_user.id}_file_{file_id}"
@@ -141,7 +146,19 @@ def study_schedule(schedule_id):
         flash('Schedule not found or access denied.', 'error')
         return redirect(url_for('dashboard'))
     
-    return render_template('study_schedule.html', schedule=schedule)
+    # Get the file information
+    file_info = mongo.db['fs.files'].find_one({'_id': ObjectId(schedule['file_id'])})
+    if file_info:
+        schedule['title'] = file_info['filename']
+        schedule['file_id'] = str(file_info['_id'])
+    
+    user_pdfs = fs.find({'user_id': current_user.id})
+    user = users.find_one({'_id': ObjectId(current_user.id)})
+    
+    return render_template('study_schedule.html', 
+                         schedule=schedule,
+                         user_pdfs=user_pdfs,
+                         user=user)
 
 @app.route('/generate_notes/<schedule_id>/<date>')
 @login_required
