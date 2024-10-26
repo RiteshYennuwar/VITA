@@ -26,7 +26,7 @@ def create_study_schedule(text_chunks: List[str], num_days: int) -> Dict[str, Li
     
     return schedule
 
-def generate_notes_for_chunks(chunks: List[str], day_number: int, total_days: int) -> str:
+def generate_notes_for_chunks(chunks: List[str], day_number: int, total_days: int, familiarity: int) -> str:
     """
     Generate study notes from text chunks using Cohere
     """
@@ -35,13 +35,16 @@ def generate_notes_for_chunks(chunks: List[str], day_number: int, total_days: in
     combined_text = " ".join(chunks)
     prompt = f"""
     As an expert tutor, create comprehensive study notes from the following text. 
-    This is Day {day_number} out of {total_days} of the study material.
+    This is Day {day_number} out of {total_days} of the study material. I rate my familiarity as {familiarity} out of 
+    5 in this topic.
     
     Please organize the notes with:
-    1. Key concepts and main ideas
-    2. Important details and examples
-    3. Summary points
-    4. Review questions
+    1.Intoduction and prerequisites to the topic based on the familiarity scale provided
+    2. Key concepts and main ideas
+    3. Important details and examples
+    4. Summary points
+    5. Review questions
+
     
     Text to process:
     {combined_text}
@@ -56,7 +59,7 @@ def generate_notes_for_chunks(chunks: List[str], day_number: int, total_days: in
     
     return response.generations[0].text
 
-def save_study_schedule(mongo_db,filename:str, user_id: str, file_id: str, schedule: Dict[str, dict]) -> str:
+def save_study_schedule(mongo_db,filename:str, user_id: str, file_id: str, schedule: Dict[str, dict], familiarity:int) -> str:
     """
     Save the study schedule to MongoDB
     """
@@ -65,7 +68,8 @@ def save_study_schedule(mongo_db,filename:str, user_id: str, file_id: str, sched
         'file_id': file_id,
         'schedule': schedule,
         'created_at': datetime.now(),
-        'title': filename  # Get the original filename
+        'title': filename,
+        'familiarity': familiarity# Get the original filename
     }
     
     return str(mongo_db.study_schedules.insert_one(schedule_data).inserted_id)
