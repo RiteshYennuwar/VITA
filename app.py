@@ -24,7 +24,7 @@ from bson.errors import InvalidId
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['MONGO_URI'] = 'mongodb+srv://yennuwarritesh:BNZmwbsgG026JVxh@vitacluster.xrl9y.mongodb.net/?retryWrites=true&w=majority&appName=VITAcluster/your_db'
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/VITA'
 mongo = PyMongo(app)
 fs = gridfs.GridFS(mongo.db)
 login_manager = LoginManager(app)
