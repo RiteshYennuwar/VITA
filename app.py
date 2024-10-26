@@ -104,7 +104,6 @@ def upload():
             file = request.files['file']
             num_days = int(request.form['num_days'])
             familiarity = int(request.form['familiarity'])
-            
             if num_days <= 0:
                 flash('Please enter a valid number of days.', 'error')
                 return redirect(url_for('upload'))
@@ -118,8 +117,8 @@ def upload():
             text_chunks = chunk_text(document_text)
             
             # Create and save study schedule
-            schedule = create_study_schedule(text_chunks, num_days, familiarity)
-            schedule_id = save_study_schedule(mongo.db, file.filename, current_user.id, file_id, schedule)
+            schedule = create_study_schedule(text_chunks, num_days)
+            schedule_id = save_study_schedule(mongo.db, file.filename, current_user.id, file_id, schedule,familiarity)
 
             mongo.db['fs.files'].update_one(
                 {'_id': ObjectId(file_id)},
@@ -175,7 +174,8 @@ def generate_daily_notes(schedule_id, date):
         
         day_number = list(schedule['schedule'].keys()).index(date) + 1
         total_days = len(schedule['schedule'])
-        notes = generate_notes_for_chunks(day_data['chunks'], day_number, total_days)
+        familiarity = schedule['familiarity']
+        notes = generate_notes_for_chunks(day_data['chunks'], day_number, total_days, familiarity)
         
         mongo.db.study_schedules.update_one(
             {'_id': ObjectId(schedule_id)},
